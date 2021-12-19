@@ -1,13 +1,22 @@
 {
-  "name": "yaml2table",
+  "name": "yaml2html-table",
   "version": "1.0.0",
-  "description": "",
+  "description": "YAML parser to create HTML table",
+  "repository": "github:nosuke23/yaml2html-table",
+  "license": "MIT",
   "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "build": "tsc"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "YAML",
+    "HTML",
+    "table",
+    "parser"
+  ],
+  "files": ["dist"],
+  "author": "nosuke23",
   "license": "ISC",
   "devDependencies": {
     "@types/jest": "^27.0.3",

@@ -28,7 +28,7 @@ caption: title
 `) // HTMLTableElement
 ```
 
-## Rule
+## Rules
 
 ### Each Document
 
@@ -44,6 +44,7 @@ Attributes:
 e.g.
 
 ```yaml
+caption: title
 alignments: [tl, br]
 ---
 [first col, second col]
@@ -53,26 +54,12 @@ alignments: [tl, br]
 
 result:
 
-<table>
-  <thead>
-      <tr>
-          <th style="text-align: left; vertical-align: top;" scope="col">first col</th>
-          <th style="text-align: right; vertical-align: bottom;" scope="col">second col</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td style="text-align: left; vertical-align: top;">1</td>
-          <td style="text-align: right; vertical-align: bottom;">2</td>
-      </tr>
-  </tbody>
-</table>
-
 <details>
 <summary>HTML</summary>
 
 ```html
 <table>
+  <caption>title</caption>
   <thead>
       <tr>
           <th style="text-align: left; vertical-align: top;" scope="col">first col</th>
@@ -318,7 +305,7 @@ result:
 - 
   - !th Angels
   - !th Black and white
-  - A1
+  - A2
   - A3
   - A4
 - 
@@ -364,7 +351,7 @@ result:
       <tr>
           <th style="text-align: center; vertical-align: center;" rowspan="2" scope="rowgroup">Angels</th>
           <th style="text-align: center; vertical-align: center;" scope="row">Black and white</th>
-          <td style="text-align: center; vertical-align: center;">A1</td>
+          <td style="text-align: center; vertical-align: center;">A2</td>
           <td style="text-align: center; vertical-align: center;">A3</td>
           <td style="text-align: center; vertical-align: center;">A4</td>
       </tr>
@@ -416,7 +403,7 @@ result:
       <tr>
           <th style="text-align: center; vertical-align: center;" rowspan="2" scope="rowgroup">Angels</th>
           <th style="text-align: center; vertical-align: center;" scope="row">Black and white</th>
-          <td style="text-align: center; vertical-align: center;">A1</td>
+          <td style="text-align: center; vertical-align: center;">A2</td>
           <td style="text-align: center; vertical-align: center;">A3</td>
           <td style="text-align: center; vertical-align: center;">A4</td>
       </tr>
