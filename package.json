@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "YAML parser to create HTML table",
   "repository": "github:nosuke23/yaml2html-table",
-  "license": "MIT",
   "main": "index.js",
   "scripts": {
     "test": "jest",
