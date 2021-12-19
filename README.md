@@ -11,7 +11,7 @@ npm install yaml2html-table
 ## Usage
 
 ```javascript
-import yaml2htmlTable from "Yaml2HtmlTable"
+import yaml2htmlTable from "yaml2html-table"
 
 let htmlTable = yaml2htmlTable(`
 caption: title
