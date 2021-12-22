@@ -26,20 +26,26 @@ caption: title
 # tfoot
 - [6, 8, 10, 12]
 `) // HTMLTableElement
+
+let htmlString = htmlTable.outerHTML // <table>...</table>
 ```
 
-## Rules
+## Options
 
-### Each Document
+- html: `boolean` - evalueate each value of the cells as whether html or text. default is `true`.
+- callback: `(val: any) => string` - how to render each value of the cells. default is <code>(val) => \`${val}\`</code> 
 
-#### The First
-Meta infomations. You can skip this.
+## The Rules of Each Document
+
+### The First
+Meta infomations. This can be skipped.
 
 Contents: hash
+
 Attributes:
 
-- `caption`: `String` Caption text.
-- `alignments`: `Array` An array of each alignment. Permitted contents: `t`, `b`, `l`, `r`, or a combnation of vertically and horizontally.
+- `caption`: `String` - Caption text.
+- `alignments`: `Array` - An array of each alignment. Permitted contents: `t`, `b`, `c`, `l`, `r`, `m` or a combnation of horizontally (left, right and center) and vertically (top, bottom and middle).
 
 e.g.
 
@@ -53,9 +59,6 @@ alignments: [tl, br]
 ```
 
 result:
-
-<details>
-<summary>HTML</summary>
 
 ```html
 <table>
@@ -75,41 +78,43 @@ result:
 </table>
 ```
 
-</details>
-
-#### The Second
+### The Second
 A `thead` element.
 
 Contents: an array, a 2 dimensions array, `null`
-Default cell tag: `th`
 
-#### The Third
+Default html tag of cells: `th`
+
+### The Third
 `tbody` elements.
 
-Contents: same as thead
-Default cell tag: `td`
+Contents: same as thead.
 
-#### The Finally
-`tfoot` elements. You can skip this.
+Default html tag of cells: `td`
 
-Contents: same as thead
-Default cell tag: `th`
+### The Finally
+`tfoot` elements. This can be skipped.
 
-### Custom Tags
+Contents: same as thead.
 
-#### HTML Tag
+Default html tag of cells: `th`
 
-- `!th`: `th` means Table Header
-- `!td`: `td` means Table Data
+## Custom Tags
 
-#### Span
+### HTML Tag
 
-You can bind cells to above cell or left cell.
+- `!th`: `th` means Table Header. The cell with `!th` tag regarded as a header.
+- `!td`: `td` means Table Data. The cell with `!th` tag regarded as a data.
 
-- `!rs`: rs means Row Span. The cell with `!rs` tag is bind the above cell.
-- `!cs`: cs means Column Span. The cell with `!cs` tag is bind the left cell.
+### Span
+
+You can bind cells to an above cell or a left cell.
+
+- `!rs`: `rs` means Row Span. The cell with `!rs` tag is bound to the above cell together.
+- `!cs`: `cs` means Column Span. The cell with `!cs` tag is bound to the left cell together.
 
 e.g. 
+
 ```yaml
 ["first col", !cs ]
 ---
@@ -122,16 +127,16 @@ result:
 <table>
   <thead>
       <tr>
-          <th style="text-align: center; vertical-align: center;" colspan="2" scope="colgroup">first col</th>
+          <th colspan="2" scope="colgroup">first col</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: center; vertical-align: center;" rowspan="2">1</td>
-          <td style="text-align: center; vertical-align: center;">2</td>
+          <td rowspan="2">1</td>
+          <td>2</td>
       </tr>
       <tr>
-          <td style="text-align: center; vertical-align: center;">3</td>
+          <td>3</td>
       </tr>
   </tbody>
 </table>
@@ -143,16 +148,16 @@ result:
 <table>
   <thead>
       <tr>
-          <th style="text-align: center; vertical-align: center;" colspan="2" scope="colgroup">first col</th>
+          <th colspan="2" scope="colgroup">first col</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: center; vertical-align: center;" rowspan="2">1</td>
-          <td style="text-align: center; vertical-align: center;">2</td>
+          <td rowspan="2">1</td>
+          <td>2</td>
       </tr>
       <tr>
-          <td style="text-align: center; vertical-align: center;">3</td>
+          <td>3</td>
       </tr>
   </tbody>
 </table>
@@ -203,31 +208,31 @@ result:
   <colgroup span="2"></colgroup>
   <thead>
       <tr>
-        <td style="text-align: center; vertical-align: center;" rowspan="2"></td>
-        <th style="text-align: center; vertical-align: center;" colspan="2" scope="colgroup">Mars</th>
-        <th style="text-align: center; vertical-align: center;" colspan="2" scope="colgroup">Venus</th>
+        <td rowspan="2"></td>
+        <th colspan="2" scope="colgroup">Mars</th>
+        <th colspan="2" scope="colgroup">Venus</th>
       </tr>
       <tr>
-          <th style="text-align: center; vertical-align: center;" scope="col">Produced</th>
-          <th style="text-align: center; vertical-align: center;" scope="col">Sold</th>
-          <th style="text-align: center; vertical-align: center;" scope="col">Produced</th>
-          <th style="text-align: center; vertical-align: center;" scope="col">Sold</th>
+          <th scope="col">Produced</th>
+          <th scope="col">Sold</th>
+          <th scope="col">Produced</th>
+          <th scope="col">Sold</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <th style="text-align: center; vertical-align: center;" scope="row">Teddy Bears</th>
-          <td style="text-align: center; vertical-align: center;">50,000</td>
-          <td style="text-align: center; vertical-align: center;">30,000</td>
-          <td style="text-align: center; vertical-align: center;">100,000</td>
-          <td style="text-align: center; vertical-align: center;">80,000</td>
+          <th scope="row">Teddy Bears</th>
+          <td>50,000</td>
+          <td>30,000</td>
+          <td>100,000</td>
+          <td>80,000</td>
       </tr>
       <tr>
-          <th style="text-align: center; vertical-align: center;" scope="row">Board Games</th>
-          <td style="text-align: center; vertical-align: center;">10,000</td>
-          <td style="text-align: center; vertical-align: center;">5,000</td>
-          <td style="text-align: center; vertical-align: center;">12,000</td>
-          <td style="text-align: center; vertical-align: center;">9,000</td>
+          <th scope="row">Board Games</th>
+          <td>10,000</td>
+          <td>5,000</td>
+          <td>12,000</td>
+          <td>9,000</td>
       </tr>
   </tbody>
 </table>
@@ -243,31 +248,31 @@ result:
   <colgroup span="2"></colgroup>
   <thead>
       <tr>
-        <td style="text-align: center; vertical-align: center;" rowspan="2"></td>
-        <th style="text-align: center; vertical-align: center;" colspan="2" scope="colgroup">Mars</th>
-        <th style="text-align: center; vertical-align: center;" colspan="2" scope="colgroup">Venus</th>
+        <td rowspan="2"></td>
+        <th colspan="2" scope="colgroup">Mars</th>
+        <th colspan="2" scope="colgroup">Venus</th>
       </tr>
       <tr>
-          <th style="text-align: center; vertical-align: center;" scope="col">Produced</th>
-          <th style="text-align: center; vertical-align: center;" scope="col">Sold</th>
-          <th style="text-align: center; vertical-align: center;" scope="col">Produced</th>
-          <th style="text-align: center; vertical-align: center;" scope="col">Sold</th>
+          <th scope="col">Produced</th>
+          <th scope="col">Sold</th>
+          <th scope="col">Produced</th>
+          <th scope="col">Sold</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <th style="text-align: center; vertical-align: center;" scope="row">Teddy Bears</th>
-          <td style="text-align: center; vertical-align: center;">50,000</td>
-          <td style="text-align: center; vertical-align: center;">30,000</td>
-          <td style="text-align: center; vertical-align: center;">100,000</td>
-          <td style="text-align: center; vertical-align: center;">80,000</td>
+          <th scope="row">Teddy Bears</th>
+          <td>50,000</td>
+          <td>30,000</td>
+          <td>100,000</td>
+          <td>80,000</td>
       </tr>
       <tr>
-          <th style="text-align: center; vertical-align: center;" scope="row">Board Games</th>
-          <td style="text-align: center; vertical-align: center;">10,000</td>
-          <td style="text-align: center; vertical-align: center;">5,000</td>
-          <td style="text-align: center; vertical-align: center;">12,000</td>
-          <td style="text-align: center; vertical-align: center;">9,000</td>
+          <th scope="row">Board Games</th>
+          <td>10,000</td>
+          <td>5,000</td>
+          <td>12,000</td>
+          <td>9,000</td>
       </tr>
   </tbody>
 </table>
@@ -286,31 +291,31 @@ result:
 ---
 -
   - !th Zodiac
-  - !th Full color
+  - &fc !th Full color
   - A2
   - A3
   - A4
 -
   - !rs
-  - !th Black and white
+  - &bw !th Black and white
   - A1
   - A2
   - A3
 - 
   - !rs
-  - !th Sepia
+  - &s !th Sepia
   - A3
   - A4
   - A5
 - 
   - !th Angels
-  - !th Black and white
-  - A2
+  - *bw
+  - A1
   - A3
   - A4
 - 
   - !rs
-  - !th Sepia
+  - *s
   - A2
   - A3
   - A5
@@ -320,46 +325,46 @@ result:
 <table>
   <thead>
       <tr>
-        <th style="text-align: center; vertical-align: center;" scope="col">Poster name</th>
-        <th style="text-align: center; vertical-align: center;" scope="col">Color</th>
-        <th style="text-align: center; vertical-align: center;" colspan="3" scope="colgroup">Sizes available</th>
+          <th scope="col">Poster name</th>
+          <th scope="col">Color</th>
+          <th colspan="3" scope="colgroup">Sizes available</th>
       </tr>
   </thead>
   <tbody></tbody>
   <tbody>
       <tr>
-          <th style="text-align: center; vertical-align: center;" rowspan="3" scope="rowgroup">Zodiac</th>
-          <th style="text-align: center; vertical-align: center;" scope="row">Full color</th>
-          <td style="text-align: center; vertical-align: center;">A2</td>
-          <td style="text-align: center; vertical-align: center;">A3</td>
-          <td style="text-align: center; vertical-align: center;">A4</td>
+          <th rowspan="3" scope="rowgroup">Zodiac</th>
+          <th scope="row">Full color</th>
+          <td>A2</td>
+          <td>A3</td>
+          <td>A4</td>
       </tr>
       <tr>
-          <th style="text-align: center; vertical-align: center;" scope="row">Black and white</th>
-          <td style="text-align: center; vertical-align: center;">A1</td>
-          <td style="text-align: center; vertical-align: center;">A2</td>
-          <td style="text-align: center; vertical-align: center;">A3</td>
+          <th scope="row">Black and white</th>
+          <td>A1</td>
+          <td>A2</td>
+          <td>A3</td>
       </tr>
       <tr>
-          <th style="text-align: center; vertical-align: center;" scope="row">Sepia</th>
-          <td style="text-align: center; vertical-align: center;">A3</td>
-          <td style="text-align: center; vertical-align: center;">A4</td>
-          <td style="text-align: center; vertical-align: center;">A5</td>
+          <th scope="row">Sepia</th>
+          <td>A3</td>
+          <td>A4</td>
+          <td>A5</td>
       </tr>
   </tbody>
   <tbody>
       <tr>
-          <th style="text-align: center; vertical-align: center;" rowspan="2" scope="rowgroup">Angels</th>
-          <th style="text-align: center; vertical-align: center;" scope="row">Black and white</th>
-          <td style="text-align: center; vertical-align: center;">A2</td>
-          <td style="text-align: center; vertical-align: center;">A3</td>
-          <td style="text-align: center; vertical-align: center;">A4</td>
+          <th rowspan="2" scope="rowgroup">Angels</th>
+          <th scope="row">Black and white</th>
+          <td>A1</td>
+          <td>A3</td>
+          <td>A4</td>
       </tr>
       <tr>
-          <th style="text-align: center; vertical-align: center;" scope="row">Sepia</th>
-          <td style="text-align: center; vertical-align: center;">A2</td>
-          <td style="text-align: center; vertical-align: center;">A3</td>
-          <td style="text-align: center; vertical-align: center;">A5</td>
+          <th scope="row">Sepia</th>
+          <td>A2</td>
+          <td>A3</td>
+          <td>A5</td>
       </tr>
   </tbody>
 </table>
@@ -372,46 +377,46 @@ result:
 <table>
   <thead>
       <tr>
-        <th style="text-align: center; vertical-align: center;" scope="col">Poster name</th>
-        <th style="text-align: center; vertical-align: center;" scope="col">Color</th>
-        <th style="text-align: center; vertical-align: center;" colspan="3" scope="colgroup">Sizes available</th>
+          <th scope="col">Poster name</th>
+          <th scope="col">Color</th>
+          <th colspan="3" scope="colgroup">Sizes available</th>
       </tr>
   </thead>
   <tbody></tbody>
   <tbody>
       <tr>
-          <th style="text-align: center; vertical-align: center;" rowspan="3" scope="rowgroup">Zodiac</th>
-          <th style="text-align: center; vertical-align: center;" scope="row">Full color</th>
-          <td style="text-align: center; vertical-align: center;">A2</td>
-          <td style="text-align: center; vertical-align: center;">A3</td>
-          <td style="text-align: center; vertical-align: center;">A4</td>
+          <th rowspan="3" scope="rowgroup">Zodiac</th>
+          <th scope="row">Full color</th>
+          <td>A2</td>
+          <td>A3</td>
+          <td>A4</td>
       </tr>
       <tr>
-          <th style="text-align: center; vertical-align: center;" scope="row">Black and white</th>
-          <td style="text-align: center; vertical-align: center;">A1</td>
-          <td style="text-align: center; vertical-align: center;">A2</td>
-          <td style="text-align: center; vertical-align: center;">A3</td>
+          <th scope="row">Black and white</th>
+          <td>A1</td>
+          <td>A2</td>
+          <td>A3</td>
       </tr>
       <tr>
-          <th style="text-align: center; vertical-align: center;" scope="row">Sepia</th>
-          <td style="text-align: center; vertical-align: center;">A3</td>
-          <td style="text-align: center; vertical-align: center;">A4</td>
-          <td style="text-align: center; vertical-align: center;">A5</td>
+          <th scope="row">Sepia</th>
+          <td>A3</td>
+          <td>A4</td>
+          <td>A5</td>
       </tr>
   </tbody>
   <tbody>
       <tr>
-          <th style="text-align: center; vertical-align: center;" rowspan="2" scope="rowgroup">Angels</th>
-          <th style="text-align: center; vertical-align: center;" scope="row">Black and white</th>
-          <td style="text-align: center; vertical-align: center;">A2</td>
-          <td style="text-align: center; vertical-align: center;">A3</td>
-          <td style="text-align: center; vertical-align: center;">A4</td>
+          <th rowspan="2" scope="rowgroup">Angels</th>
+          <th scope="row">Black and white</th>
+          <td>A1</td>
+          <td>A3</td>
+          <td>A4</td>
       </tr>
       <tr>
-          <th style="text-align: center; vertical-align: center;" scope="row">Sepia</th>
-          <td style="text-align: center; vertical-align: center;">A2</td>
-          <td style="text-align: center; vertical-align: center;">A3</td>
-          <td style="text-align: center; vertical-align: center;">A5</td>
+          <th scope="row">Sepia</th>
+          <td>A2</td>
+          <td>A3</td>
+          <td>A5</td>
       </tr>
   </tbody>
 </table>
@@ -422,12 +427,14 @@ result:
 
 ### Others
 
+#### Fibonacci Numbers
+
 ```yaml
 [!td , 1, 1, 1, 1, 1, 1, 1, 1]
 ---
-- [!th 1, 5, !cs , !cs , !cs , !cs , 1, 2, !cs ]
-- [!th 1, !rs , null, null, null, null, 1, !rs , null]
-- [!th 1, !rs , null, null, null, null, 3, !cs , !cs ]
+- [!th 1, 5   , !cs , !cs , !cs , !cs , 1   , 2   , !cs ]
+- [!th 1, !rs , null, null, null, null, 1   , !rs , null]
+- [!th 1, !rs , null, null, null, null, 3   , !cs , !cs ]
 - [!th 1, !rs , null, null, null, null, !rs , null, null]
 - [!th 1, !rs , null, null, null, null, !rs , null, null]
 ```
@@ -437,37 +444,37 @@ result:
 <table>
   <thead>
       <tr>
-          <td style="text-align: center; vertical-align: center;"></td>
-          <th style="text-align: center; vertical-align: center;" scope="col">1</th>
-          <th style="text-align: center; vertical-align: center;" scope="col">1</th>
-          <th style="text-align: center; vertical-align: center;" scope="col">1</th>
-          <th style="text-align: center; vertical-align: center;" scope="col">1</th>
-          <th style="text-align: center; vertical-align: center;" scope="col">1</th>
-          <th style="text-align: center; vertical-align: center;" scope="col">1</th>
-          <th style="text-align: center; vertical-align: center;" scope="col">1</th>
-          <th style="text-align: center; vertical-align: center;" scope="col">1</th>
+          <td></td>
+          <th scope="col">1</th>
+          <th scope="col">1</th>
+          <th scope="col">1</th>
+          <th scope="col">1</th>
+          <th scope="col">1</th>
+          <th scope="col">1</th>
+          <th scope="col">1</th>
+          <th scope="col">1</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <th style="text-align: center; vertical-align: center;" scope="row">1</th>
-          <td style="text-align: center; vertical-align: center;" colspan="5" rowspan="5">5</td>
-          <td style="text-align: center; vertical-align: center;">1</td>
-          <td style="text-align: center; vertical-align: center;" colspan="2" rowspan="2">2</td>
+          <th scope="row">1</th>
+          <td colspan="5" rowspan="5">5</td>
+          <td>1</td>
+          <td colspan="2" rowspan="2">2</td>
       </tr>
       <tr>
-          <th style="text-align: center; vertical-align: center;" scope="row">1</th>
-          <td style="text-align: center; vertical-align: center;">1</td>
+          <th scope="row">1</th>
+          <td>1</td>
       </tr>
       <tr>
-          <th style="text-align: center; vertical-align: center;" scope="row">1</th>
-          <td style="text-align: center; vertical-align: center;" colspan="3" rowspan="3">3</td>
+          <th scope="row">1</th>
+          <td colspan="3" rowspan="3">3</td>
       </tr>
       <tr>
-          <th style="text-align: center; vertical-align: center;" scope="row">1</th>
+          <th scope="row">1</th>
       </tr>
       <tr>
-          <th style="text-align: center; vertical-align: center;" scope="row">1</th>
+          <th scope="row">1</th>
       </tr>
   </tbody>
 </table>
@@ -479,40 +486,114 @@ result:
 <table>
   <thead>
       <tr>
-          <td style="text-align: center; vertical-align: center;"></td>
-          <th style="text-align: center; vertical-align: center;" scope="col">1</th>
-          <th style="text-align: center; vertical-align: center;" scope="col">1</th>
-          <th style="text-align: center; vertical-align: center;" scope="col">1</th>
-          <th style="text-align: center; vertical-align: center;" scope="col">1</th>
-          <th style="text-align: center; vertical-align: center;" scope="col">1</th>
-          <th style="text-align: center; vertical-align: center;" scope="col">1</th>
-          <th style="text-align: center; vertical-align: center;" scope="col">1</th>
-          <th style="text-align: center; vertical-align: center;" scope="col">1</th>
+          <td></td>
+          <th scope="col">1</th>
+          <th scope="col">1</th>
+          <th scope="col">1</th>
+          <th scope="col">1</th>
+          <th scope="col">1</th>
+          <th scope="col">1</th>
+          <th scope="col">1</th>
+          <th scope="col">1</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <th style="text-align: center; vertical-align: center;" scope="row">1</th>
-          <td style="text-align: center; vertical-align: center;" colspan="5" rowspan="5">5</td>
-          <td style="text-align: center; vertical-align: center;">1</td>
-          <td style="text-align: center; vertical-align: center;" colspan="2" rowspan="2">2</td>
+          <th scope="row">1</th>
+          <td colspan="5" rowspan="5">5</td>
+          <td>1</td>
+          <td colspan="2" rowspan="2">2</td>
       </tr>
       <tr>
-          <th style="text-align: center; vertical-align: center;" scope="row">1</th>
-          <td style="text-align: center; vertical-align: center;">1</td>
+          <th scope="row">1</th>
+          <td>1</td>
       </tr>
       <tr>
-          <th style="text-align: center; vertical-align: center;" scope="row">1</th>
-          <td style="text-align: center; vertical-align: center;" colspan="3" rowspan="3">3</td>
+          <th scope="row">1</th>
+          <td colspan="3" rowspan="3">3</td>
       </tr>
       <tr>
-          <th style="text-align: center; vertical-align: center;" scope="row">1</th>
+          <th scope="row">1</th>
       </tr>
       <tr>
-          <th style="text-align: center; vertical-align: center;" scope="row">1</th>
+          <th scope="row">1</th>
       </tr>
   </tbody>
 </table>
 ```
 
+</details>
+
+#### Nested Table
+  
+```yaml
+[first table]
+---
+- 
+  -
+    - [!th a, !cs ]
+    - [1, 2]
+    - [!rs , 4]
+```
+
+<table>
+    <thead>
+        <tr>
+            <th scope="col">first table</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                <table>
+                    <tbody>
+                        <tr>
+                            <th colspan="2">a</th>
+                        </tr>
+                        <tr>
+                            <td rowspan="2">1</td>
+                            <td>2</td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<details>
+<summary>HTML</summary>
+
+```html
+<table>
+    <thead>
+        <tr>
+            <th scope="col">first table</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                <table>
+                    <tbody>
+                        <tr>
+                            <th colspan="2">a</th>
+                        </tr>
+                        <tr>
+                            <td rowspan="2">1</td>
+                            <td>2</td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    </tbody>
+</table>
+```
 </details>

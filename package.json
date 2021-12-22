@@ -3,7 +3,7 @@
   "version": "1.0.1",
   "description": "YAML parser to create HTML table",
   "repository": "github:nosuke23/yaml2html-table",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
     "test": "jest",
     "build": "tsc"

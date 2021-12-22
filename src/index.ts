@@ -2,8 +2,8 @@ import * as YAML from "yaml"
 import type { Schema } from "yaml/types"
 
 interface Alignment {
-  h: "left" | "right" | "center"
-  v: "top" | "bottom" | "center"
+  h: "left" | "right" | "center" | null
+  v: "top" | "bottom" | "middle" | null
 }
 
 /**
@@ -67,57 +67,6 @@ const tDRule: Schema.CustomTag = {
   resolve: (doc, cst) => ({ val: cst.rawValue, tag: "td" }),
 }
 
-const createTDElm = (info: TDElm, html: boolean): HTMLTableCellElement => {
-  let elm: HTMLTableCellElement = document.createElement(info.tag)
-  if (info.cs) {
-    elm.colSpan = info.cs
-  }
-  if (info.rs) {
-    elm.colSpan = info.rs
-  }
-
-  Object.keys(info.attrs).forEach((attr) => {
-    elm.setAttribute(attr, info.attrs[attr])
-  })
-  elm.style.textAlign = info.ali.h
-  elm.style.verticalAlign = info.ali.v
-
-  if (html) {
-    elm.innerHTML = info.val
-  } else {
-    elm.textContent = info.val
-  }
-  return elm
-}
-
-const createtTCellElm = (
-  cell: unknown,
-  alignment: Alignment,
-  callback: (val: any) => string,
-  html: boolean,
-  { defaultCellTag = "td" }: { defaultCellTag?: "td" | "th" } = {}
-): HTMLTableCellElement | null => {
-  let cellInfo: TDElm = {
-    val: "",
-    ali: alignment ? alignment : { h: "center", v: "center" },
-    tag: defaultCellTag,
-    attrs: {},
-  }
-  if (cell === null) {
-    return cell
-  }
-  if (typeof cell === "object" && cell && hasOwnProperty(cell, "val")) {
-    cellInfo = {
-      ...cellInfo,
-      ...cell,
-      val: callback(cell.val),
-    }
-  } else {
-    cellInfo.val = callback(cell as any)
-  }
-  return createTDElm(cellInfo, html)
-}
-
 const createNonNullTCell2DimsArray = (
   tCell2DimsArray: (HTMLTableCellElement | null)[][]
 ): HTMLTableCellElement[][] =>
@@ -165,6 +114,130 @@ const bindLeftCell = (
       continue
     }
   }
+}
+
+const bindCell = (
+  cell: unknown,
+  tCell2DimsArray: (HTMLTableCellElement | null)[][],
+  tCellElms: (HTMLTableCellElement | null)[],
+  idx: number,
+  cellIdx: number
+) => {
+  if (typeof cell === "object" && cell) {
+    if (idx !== 0 && hasOwnProperty(cell, "rowSpan") && cell.rowSpan) {
+      bindTopCell(tCell2DimsArray, idx, cellIdx)
+      tCellElms.push(null)
+      return true
+    }
+    // col span
+    if (cellIdx !== 0 && hasOwnProperty(cell, "colspan") && cell.colspan) {
+      bindLeftCell(tCellElms, cellIdx)
+      tCellElms.push(null)
+      return true
+    }
+  }
+}
+
+const createTDElm = (info: TDElm, html: boolean): HTMLTableCellElement => {
+  let elm: HTMLTableCellElement = document.createElement(info.tag)
+  if (info.cs) {
+    elm.colSpan = info.cs
+  }
+  if (info.rs) {
+    elm.colSpan = info.rs
+  }
+
+  Object.keys(info.attrs).forEach((attr) => {
+    elm.setAttribute(attr, info.attrs[attr])
+  })
+  if (info.ali.h) {
+    elm.style.textAlign = info.ali.h
+  }
+  if (info.ali.v) {
+    elm.style.verticalAlign = info.ali.v
+  }
+
+  if (html) {
+    elm.innerHTML = info.val
+  } else {
+    elm.textContent = info.val
+  }
+  return elm
+}
+
+const createtTCellElm = (
+  cell: unknown,
+  alignment: Alignment,
+  callback: (val: any) => string,
+  html: boolean,
+  { defaultCellTag = "td" }: { defaultCellTag?: "td" | "th" } = {}
+): HTMLTableCellElement | null => {
+  let cellInfo: TDElm = {
+    val: "",
+    ali: alignment ? alignment : { h: null, v: null },
+    tag: defaultCellTag,
+    attrs: {},
+  }
+  if (cell === null) {
+    return cell
+  }
+  if (typeof cell === "object" && cell && hasOwnProperty(cell, "val")) {
+    cellInfo = {
+      ...cellInfo,
+      ...cell,
+      val: callback(cell.val),
+    }
+  } else if (Array.isArray(cell)) {
+    cellInfo.val = createUnitTable(cell, callback, html).outerHTML
+  } else {
+    cellInfo.val = callback(cell as any)
+  }
+  return createTDElm(cellInfo, html)
+}
+
+const createUnitTable = (
+  val: any[],
+  callback: (val: any) => string,
+  html: boolean
+): HTMLTableElement => {
+  let tableElm = document.createElement("table")
+  let tBodyElm = document.createElement("tbody")
+
+  if (!is2dimsArray(val)) {
+    val = [val]
+  }
+  let tCell2DimsArray: (HTMLTableCellElement | null)[][] = []
+  if (is2dimsArray(val)) {
+    val.forEach((row, idx) => {
+      let tCellElms: (HTMLTableCellElement | null)[] = []
+      row.forEach((cell: unknown, cellIdx) => {
+        if (bindCell(cell, tCell2DimsArray, tCellElms, idx, cellIdx)) {
+          return
+        }
+
+        let tCellElm = createtTCellElm(
+          cell,
+          { h: null, v: null },
+          callback,
+          html,
+          {
+            defaultCellTag: "td",
+          }
+        )
+        tCellElms.push(tCellElm)
+      })
+      tCell2DimsArray.push(tCellElms)
+    })
+  }
+
+  let nonNullTCell2DimsArray: HTMLTableCellElement[][] =
+    createNonNullTCell2DimsArray(tCell2DimsArray)
+  createTRowElms(nonNullTCell2DimsArray).forEach((tRowElm) =>
+    tBodyElm.appendChild(tRowElm)
+  )
+  tableElm.appendChild(tBodyElm)
+
+  return tableElm
 }
 
 /**
@@ -229,18 +302,22 @@ export default (
       .map((set) => set.toLowerCase())
       .map((set) => {
         let align: Alignment = {
-          h: "center",
-          v: "center",
+          h: null,
+          v: null,
         }
         if (set.indexOf("l") !== -1) {
           align.h = "left"
         } else if (set.indexOf("r") !== -1) {
           align.h = "right"
+        } else if (set.indexOf("c") !== -1) {
+          align.h = "center"
         }
         if (set.indexOf("t") !== -1) {
           align.v = "top"
         } else if (set.indexOf("b") !== -1) {
           align.v = "bottom"
+        } else if (set.indexOf("m") !== -1) {
+          align.v = "middle"
         }
         return align
       })
@@ -266,23 +343,8 @@ export default (
 
       // create row elements
       row.forEach((cell: unknown, cellIdx) => {
-        if (typeof cell === "object" && cell) {
-          // row span
-          if (idx !== 0 && hasOwnProperty(cell, "rowSpan") && cell.rowSpan) {
-            bindTopCell(tCell2DimsArray, idx, cellIdx)
-            tCellElms.push(null)
-            return
-          }
-          // col span
-          if (
-            cellIdx !== 0 &&
-            hasOwnProperty(cell, "colspan") &&
-            cell.colspan
-          ) {
-            bindLeftCell(tCellElms, cellIdx)
-            tCellElms.push(null)
-            return
-          }
+        if (bindCell(cell, tCell2DimsArray, tCellElms, idx, cellIdx)) {
+          return
         }
 
         let tCellElm = createtTCellElm(
@@ -360,23 +422,8 @@ export default (
 
       // create row elements
       row.forEach((cell: unknown, cellIdx) => {
-        if (typeof cell === "object" && cell) {
-          // row span
-          if (idx !== 0 && hasOwnProperty(cell, "rowSpan") && cell.rowSpan) {
-            bindTopCell(tCell2DimsArray, idx, cellIdx)
-            tCellElms.push(null)
-            return
-          }
-          // col span
-          if (
-            cellIdx !== 0 &&
-            hasOwnProperty(cell, "colspan") &&
-            cell.colspan
-          ) {
-            bindLeftCell(tCellElms, cellIdx)
-            tCellElms.push(null)
-            return
-          }
+        if (bindCell(cell, tCell2DimsArray, tCellElms, idx, cellIdx)) {
+          return
         }
 
         let tCellElm = createtTCellElm(
@@ -458,23 +505,8 @@ export default (
 
       // create row elements and append them to the tfoot
       row.forEach((cell: unknown, cellIdx) => {
-        if (typeof cell === "object" && cell) {
-          // row span
-          if (idx !== 0 && hasOwnProperty(cell, "rowSpan") && cell.rowSpan) {
-            bindTopCell(tCell2DimsArray, idx, cellIdx)
-            tCellElms.push(null)
-            return
-          }
-          // col span
-          if (
-            cellIdx !== 0 &&
-            hasOwnProperty(cell, "colspan") &&
-            cell.colspan
-          ) {
-            bindLeftCell(tCellElms, cellIdx)
-            tCellElms.push(null)
-            return
-          }
+        if (bindCell(cell, tCell2DimsArray, tCellElms, idx, cellIdx)) {
+          return
         }
 
         let tCellElm = createtTCellElm(

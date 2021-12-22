@@ -81,18 +81,18 @@ describe("index", () => {
       <table>
         <thead>
             <tr>
-                <th style="text-align: center; vertical-align: center;" scope="col">first col</th>
-                <th style="text-align: center; vertical-align: center;" scope="col">second col</th>
+                <th scope="col">first col</th>
+                <th scope="col">second col</th>
             </tr>
         </thead>
         <tbody>
             <tr>
-                <td style="text-align: center; vertical-align: center;">1</td>
-                <td style="text-align: center; vertical-align: center;">2</td>
+                <td>1</td>
+                <td>2</td>
             </tr>
             <tr>
-                <td style="text-align: center; vertical-align: center;">3</td>
-                <td style="text-align: center; vertical-align: center;">4</td>
+                <td>3</td>
+                <td>4</td>
             </tr>
         </tbody>
       </table> 
@@ -110,8 +110,8 @@ describe("index", () => {
       <table>
         <thead>
             <tr>
-                <th style="text-align: center; vertical-align: center;" scope="col">pre-a</th>
-                <th style="text-align: center; vertical-align: center;" scope="col">pre-b</th>
+                <th scope="col">pre-a</th>
+                <th scope="col">pre-b</th>
             </tr>
         </thead>
       </table>
@@ -132,16 +132,16 @@ describe("index", () => {
       <table>
         <thead>
             <tr>
-                <th style="text-align: center; vertical-align: center;" colspan="2" scope="colgroup">first col</th>
+                <th colspan="2" scope="colgroup">first col</th>
             </tr>
         </thead>
         <tbody>
             <tr>
-                <td style="text-align: center; vertical-align: center;" rowspan="2">1</td>
-                <td style="text-align: center; vertical-align: center;">2</td>
+                <td rowspan="2">1</td>
+                <td>2</td>
             </tr>
             <tr>
-                <td style="text-align: center; vertical-align: center;">3</td>
+                <td>3</td>
             </tr>
         </tbody>
       </table>
@@ -188,31 +188,31 @@ describe("index", () => {
         <colgroup span="2"></colgroup>
         <thead>
             <tr>
-              <td style="text-align: center; vertical-align: center;" rowspan="2"></td>
-              <th style="text-align: center; vertical-align: center;" colspan="2" scope="colgroup">Mars</th>
-              <th style="text-align: center; vertical-align: center;" colspan="2" scope="colgroup">Venus</th>
+              <td rowspan="2"></td>
+              <th colspan="2" scope="colgroup">Mars</th>
+              <th colspan="2" scope="colgroup">Venus</th>
             </tr>
             <tr>
-                <th style="text-align: center; vertical-align: center;" scope="col">Produced</th>
-                <th style="text-align: center; vertical-align: center;" scope="col">Sold</th>
-                <th style="text-align: center; vertical-align: center;" scope="col">Produced</th>
-                <th style="text-align: center; vertical-align: center;" scope="col">Sold</th>
+                <th scope="col">Produced</th>
+                <th scope="col">Sold</th>
+                <th scope="col">Produced</th>
+                <th scope="col">Sold</th>
             </tr>
         </thead>
         <tbody>
             <tr>
-                <th style="text-align: center; vertical-align: center;" scope="row">Teddy Bears</th>
-                <td style="text-align: center; vertical-align: center;">50,000</td>
-                <td style="text-align: center; vertical-align: center;">30,000</td>
-                <td style="text-align: center; vertical-align: center;">100,000</td>
-                <td style="text-align: center; vertical-align: center;">80,000</td>
+                <th scope="row">Teddy Bears</th>
+                <td>50,000</td>
+                <td>30,000</td>
+                <td>100,000</td>
+                <td>80,000</td>
             </tr>
             <tr>
-                <th style="text-align: center; vertical-align: center;" scope="row">Board Games</th>
-                <td style="text-align: center; vertical-align: center;">10,000</td>
-                <td style="text-align: center; vertical-align: center;">5,000</td>
-                <td style="text-align: center; vertical-align: center;">12,000</td>
-                <td style="text-align: center; vertical-align: center;">9,000</td>
+                <th scope="row">Board Games</th>
+                <td>10,000</td>
+                <td>5,000</td>
+                <td>12,000</td>
+                <td>9,000</td>
             </tr>
         </tbody>
       </table>
@@ -264,46 +264,46 @@ describe("index", () => {
       <table>
         <thead>
             <tr>
-              <th style="text-align: center; vertical-align: center;" scope="col">Poster name</th>
-              <th style="text-align: center; vertical-align: center;" scope="col">Color</th>
-              <th style="text-align: center; vertical-align: center;" colspan="3" scope="colgroup">Sizes available</th>
+              <th scope="col">Poster name</th>
+              <th scope="col">Color</th>
+              <th colspan="3" scope="colgroup">Sizes available</th>
             </tr>
         </thead>
         <tbody></tbody>
         <tbody>
             <tr>
-                <th style="text-align: center; vertical-align: center;" rowspan="3" scope="rowgroup">Zodiac</th>
-                <th style="text-align: center; vertical-align: center;" scope="row">Full color</th>
-                <td style="text-align: center; vertical-align: center;">A2</td>
-                <td style="text-align: center; vertical-align: center;">A3</td>
-                <td style="text-align: center; vertical-align: center;">A4</td>
+                <th rowspan="3" scope="rowgroup">Zodiac</th>
+                <th scope="row">Full color</th>
+                <td>A2</td>
+                <td>A3</td>
+                <td>A4</td>
             </tr>
             <tr>
-                <th style="text-align: center; vertical-align: center;" scope="row">Black and white</th>
-                <td style="text-align: center; vertical-align: center;">A1</td>
-                <td style="text-align: center; vertical-align: center;">A2</td>
-                <td style="text-align: center; vertical-align: center;">A3</td>
+                <th scope="row">Black and white</th>
+                <td>A1</td>
+                <td>A2</td>
+                <td>A3</td>
             </tr>
             <tr>
-                <th style="text-align: center; vertical-align: center;" scope="row">Sepia</th>
-                <td style="text-align: center; vertical-align: center;">A3</td>
-                <td style="text-align: center; vertical-align: center;">A4</td>
-                <td style="text-align: center; vertical-align: center;">A5</td>
+                <th scope="row">Sepia</th>
+                <td>A3</td>
+                <td>A4</td>
+                <td>A5</td>
             </tr>
         </tbody>
         <tbody>
             <tr>
-                <th style="text-align: center; vertical-align: center;" rowspan="2" scope="rowgroup">Angels</th>
-                <th style="text-align: center; vertical-align: center;" scope="row">Black and white</th>
-                <td style="text-align: center; vertical-align: center;">A1</td>
-                <td style="text-align: center; vertical-align: center;">A3</td>
-                <td style="text-align: center; vertical-align: center;">A4</td>
+                <th rowspan="2" scope="rowgroup">Angels</th>
+                <th scope="row">Black and white</th>
+                <td>A1</td>
+                <td>A3</td>
+                <td>A4</td>
             </tr>
             <tr>
-                <th style="text-align: center; vertical-align: center;" scope="row">Sepia</th>
-                <td style="text-align: center; vertical-align: center;">A2</td>
-                <td style="text-align: center; vertical-align: center;">A3</td>
-                <td style="text-align: center; vertical-align: center;">A5</td>
+                <th scope="row">Sepia</th>
+                <td>A2</td>
+                <td>A3</td>
+                <td>A5</td>
             </tr>
         </tbody>
       </table>
@@ -327,37 +327,37 @@ describe("index", () => {
       <table>
         <thead>
             <tr>
-                <td style="text-align: center; vertical-align: center;"></td>
-                <th style="text-align: center; vertical-align: center;" scope="col">1</th>
-                <th style="text-align: center; vertical-align: center;" scope="col">1</th>
-                <th style="text-align: center; vertical-align: center;" scope="col">1</th>
-                <th style="text-align: center; vertical-align: center;" scope="col">1</th>
-                <th style="text-align: center; vertical-align: center;" scope="col">1</th>
-                <th style="text-align: center; vertical-align: center;" scope="col">1</th>
-                <th style="text-align: center; vertical-align: center;" scope="col">1</th>
-                <th style="text-align: center; vertical-align: center;" scope="col">1</th>
+                <td></td>
+                <th scope="col">1</th>
+                <th scope="col">1</th>
+                <th scope="col">1</th>
+                <th scope="col">1</th>
+                <th scope="col">1</th>
+                <th scope="col">1</th>
+                <th scope="col">1</th>
+                <th scope="col">1</th>
             </tr>
         </thead>
         <tbody>
             <tr>
-                <th style="text-align: center; vertical-align: center;" scope="row">1</th>
-                <td style="text-align: center; vertical-align: center;" colspan="5" rowspan="5">5</td>
-                <td style="text-align: center; vertical-align: center;">1</td>
-                <td style="text-align: center; vertical-align: center;" colspan="2" rowspan="2">2</td>
+                <th scope="row">1</th>
+                <td colspan="5" rowspan="5">5</td>
+                <td>1</td>
+                <td colspan="2" rowspan="2">2</td>
             </tr>
             <tr>
-                <th style="text-align: center; vertical-align: center;" scope="row">1</th>
-                <td style="text-align: center; vertical-align: center;">1</td>
+                <th scope="row">1</th>
+                <td>1</td>
             </tr>
             <tr>
-                <th style="text-align: center; vertical-align: center;" scope="row">1</th>
-                <td style="text-align: center; vertical-align: center;" colspan="3" rowspan="3">3</td>
+                <th scope="row">1</th>
+                <td colspan="3" rowspan="3">3</td>
             </tr>
             <tr>
-                <th style="text-align: center; vertical-align: center;" scope="row">1</th>
+                <th scope="row">1</th>
             </tr>
             <tr>
-                <th style="text-align: center; vertical-align: center;" scope="row">1</th>
+                <th scope="row">1</th>
             </tr>
         </tbody>
       </table>
@@ -376,8 +376,8 @@ describe("index", () => {
       <table>
         <tbody>
             <tr>
-                <td style="text-align: center; vertical-align: center;">1</td>
-                <td style="text-align: center; vertical-align: center;">2</td>
+                <td>1</td>
+                <td>2</td>
             </tr>
         </tbody>
       </table>
@@ -398,12 +398,109 @@ describe("index", () => {
         <caption>&lt;a&gt;html&lt;/a&gt;</caption>
         <tbody>
             <tr>
-                <td style="text-align: center; vertical-align: center;">&lt;a&gt;html&lt;a&gt;</td>
+                <td>&lt;a&gt;html&lt;a&gt;</td>
             </tr>
         </tbody>
       </table>
       `,
       { html: false }
+    )
+  })
+
+  it("should return nested table", () => {
+    testParser(
+      outdent`
+      [first table]
+      ---
+      - 
+        -
+          - [!th a, !cs ]
+          - [1, 2]
+          - [!rs , 4]
+      `,
+      outdent`
+      <table>
+        <thead>
+            <tr>
+                <th scope="col">first table</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    <table>
+                        <tbody>
+                            <tr>
+                                <th colspan="2">a</th>
+                            </tr>
+                            <tr>
+                                <td rowspan="2">1</td>
+                                <td>2</td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+        </tbody>
+      </table>
+      `
+    )
+  })
+
+  it("should return nested* table", () => {
+    testParser(
+      outdent`
+      [first col]
+      ---
+      -
+        -
+          - [!th nested col]
+          -
+            - 
+              - [!th nested** col, !cs ]
+              - [1, 2]
+              
+      `,
+      outdent`
+      <table>
+        <thead>
+            <tr>
+                <th scope="col">first col</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    <table>
+                        <tbody>
+                            <tr>
+                                <th>nested col</th>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <table>
+                                        <tbody>
+                                            <tr>
+                                                <th colspan="2">nested** col</th>
+                                            </tr>
+                                            <tr>
+                                                <td>1</td>
+                                                <td>2</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+        </tbody>
+      </table>
+      `
     )
   })
 })
