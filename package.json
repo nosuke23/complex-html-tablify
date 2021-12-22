@@ -1,6 +1,6 @@
 {
   "name": "yaml2html-table",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "YAML parser to create HTML table",
   "repository": "github:nosuke23/yaml2html-table",
   "main": "dist/index.js",
