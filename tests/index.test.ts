@@ -1,18 +1,17 @@
 import * as beautify from "js-beautify"
 import { outdent } from "outdent"
 
-import { createHtmlTableFromYamlString } from "../src/index"
+import { tablifyFromYamlString, tablifyWithHeader } from "../src/index"
 
 import type { Alignment } from "../src/types/alignment"
 
 describe("index", () => {
-  const parse = (
-    data: string,
-    options: Parameters<typeof createHtmlTableFromYamlString>[1] = {}
-  ): string =>
-    beautify.html(createHtmlTableFromYamlString(data, options).outerHTML)
+  describe("tablifyFromYamlString", () => {
+    const parse = (
+      data: string,
+      options: Parameters<typeof tablifyFromYamlString>[1] = {}
+    ): string => beautify.html(tablifyFromYamlString(data, options).outerHTML)
 
-  describe("createHtmlTableFromYamlString", () => {
     it("should tie cells", () => {
       const data = outdent`
       - 
@@ -277,6 +276,106 @@ describe("index", () => {
 
         expect(parse(data, { caption })).toBe(expected)
       })
+    })
+  })
+
+  describe("tablifyWithHeader", () => {
+    const parse = (
+      data: unknown[][],
+      header: string | string[],
+      options: Parameters<typeof tablifyWithHeader>[2] = {}
+    ): string =>
+      beautify.html(tablifyWithHeader(data, header, options).outerHTML)
+
+    it("should return with headers", () => {
+      const firstLevelHeader = outdent`
+        -
+          - Poster name
+          - Color
+          - Sizes available
+          - !cs
+          - !cs
+        `
+      const secondLevelHeader = outdent`
+        -
+          - !th Zodiac
+          - !th Full color
+        -
+          - !rs
+          - !th Black and white
+        - 
+          - !rs
+          - !th Sepia
+        - 
+          - !th Angels
+          - !th Black and white
+        - 
+          - !rs
+          - !th Sepia
+        `
+      const header = [firstLevelHeader, secondLevelHeader]
+
+      const data = [
+        ["A2", "A3", "A4"],
+        ["A1", "A2", "A3"],
+        ["A3", "A4", "A5"],
+        ["A1", "A3", "A4"],
+        ["A2", "A3", "A5"],
+      ]
+
+      const caption = "Poster availability"
+
+      expect(parse(data, header, { caption })).toBe(outdent`
+      <table>
+          <caption>Poster availability</caption>
+          <col>
+          <col>
+          <colgroup span="3"></colgroup>
+          <thead>
+              <tr>
+                  <th>Poster name</th>
+                  <th>Color</th>
+                  <th colspan="3">Sizes available</th>
+              </tr>
+          </thead>
+          <tbody>
+              <tr>
+                  <th rowspan="3">Zodiac</th>
+                  <th>Full color</th>
+                  <td>A2</td>
+                  <td>A3</td>
+                  <td>A4</td>
+              </tr>
+              <tr>
+                  <th>Black and white</th>
+                  <td>A1</td>
+                  <td>A2</td>
+                  <td>A3</td>
+              </tr>
+              <tr>
+                  <th>Sepia</th>
+                  <td>A3</td>
+                  <td>A4</td>
+                  <td>A5</td>
+              </tr>
+          </tbody>
+          <tbody>
+              <tr>
+                  <th rowspan="2">Angels</th>
+                  <th>Black and white</th>
+                  <td>A1</td>
+                  <td>A3</td>
+                  <td>A4</td>
+              </tr>
+              <tr>
+                  <th>Sepia</th>
+                  <td>A2</td>
+                  <td>A3</td>
+                  <td>A5</td>
+              </tr>
+          </tbody>
+      </table>
+      `)
     })
   })
 })

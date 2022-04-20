@@ -1,8 +1,8 @@
 {
-  "name": "yaml2html-table",
-  "version": "1.0.2",
-  "description": "YAML parser to create HTML table",
-  "repository": "github:nosuke23/yaml2html-table",
+  "name": "complex-html-tablify",
+  "version": "1.1.0",
+  "description": "Create complex HTML table from YAML",
+  "repository": "github:nosuke23/complex-html-tablify",
   "main": "dist/index.js",
   "scripts": {
     "test": "jest",
@@ -18,7 +18,7 @@
     "dist"
   ],
   "author": "nosuke23",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "@types/jest": "^27.0.3",
     "@types/js-beautify": "^1.13.3",
@@ -36,7 +36,6 @@
     "typescript": "^4.5.4"
   },
   "dependencies": {
-    "js-yaml": "^4.1.0",
     "ramda": "^0.28.0",
     "yaml": "^1.10.2"
   }

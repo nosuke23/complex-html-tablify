@@ -22,3 +22,4 @@ export {
   createTableColElements,
 } from "./create_table_col"
 export { createTableCaptionElement } from "./create_table_caption"
+export { default as customTags } from "./custom_tags"
